@@ -46,20 +46,10 @@ class CreateProdukTable extends Migration
                 'constraint' => 11,
                 'null' => false,
             ],
-            'created_at' => [
-                'type' => 'TIMESTAMP',
-                'null' => false,
-            ],
-            'updated_at' => [
-                'type' => 'TIMESTAMP',
-                'null' => false,
-            ],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('category_id', 'category', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('produk');
-        $this->db->query('ALTER TABLE produk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP');
-        $this->db->query('ALTER TABLE produk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP');
     }
 
     public function down()

@@ -191,7 +191,7 @@ class DashboardController extends Controller
         $productImage = $this->request->getFile('product_image');
         if ($productImage && $productImage->isValid() && !$productImage->hasMoved()) {
             // Upload the new image
-            $newImage = $this->uploadProductImage($productImage);
+            $newImage = $this->uploadProductImage();
             $data_input['product_image'] = $newImage;
         }
 
@@ -217,24 +217,63 @@ class DashboardController extends Controller
     }
 
     // Helper method to upload product image
-    private function uploadProductImage($productImage = null)
-    {
-        if (!$productImage) {
-            return null;
-        }
+// Correct the path for uploading images within your public directory (jovan.siskuring.com)
+private function uploadProductImage2($productImage = null)
+{
+    if (!$productImage) {
+        return null;
+    }
 
+    // FCPATH points to jovan.siskuring.com, which is the public folder
+    $uploadPath = FCPATH . 'uploads/product_images';  // Will point to jovan.siskuring.com/uploads/product_images
+
+    // Ensure the directory exists
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0775, true);
+    }
+
+    // Generate a random name for the image
+    $newName = $productImage->getRandomName();
+
+    // Move the uploaded file to the target directory
+    if ($productImage->move($uploadPath, $newName)) {
+        return 'uploads/product_images/' . $newName;  // Returns the relative path
+    } else {
+        // Handle error if upload fails
+        return 'Failed to upload the image.';
+    }
+}
+
+private function uploadProductImage()
+{
+    // Check if the 'product_image' field exists in the request and the file is valid
+    if ($this->request->getFile('product_image')->isValid()) {
+        // Get the uploaded file
+        $productImage = $this->request->getFile('product_image');
+
+        // Generate a random name for the image
         $newName = $productImage->getRandomName();
-        $uploadPath = ROOTPATH . 'public/uploads/product_images';
+
+        // Define the upload path (relative path from FCPATH)
+        $uploadPath = FCPATH . 'uploads/product_images';
 
         // Ensure the directory exists
         if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0777, true);
+            mkdir($uploadPath, 0775, true); // Create directory if it doesn't exist
         }
 
-        $productImage->move($uploadPath, $newName);
-        return 'uploads/product_images/' . $newName;
+        // Move the uploaded file to the target directory
+        if ($productImage->move($uploadPath, $newName)) {
+            // Return the relative path of the uploaded image
+            return 'uploads/product_images/' . $newName;
+        } else {
+            // Handle error if upload fails
+            return 'Failed to upload the product image.';
+        }
     }
 
+    return null; // No image uploaded or invalid file
+}
 
     public function export()
     {

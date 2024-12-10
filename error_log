@@ -1,0 +1,4 @@
+[07-Dec-2024 23:20:35 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to undefined function str_starts_with() in /home/traw3623/public_html/jovan_core/spark:28
+Stack trace:
+#0 {main}
+  thrown in /home/traw3623/public_html/jovan_core/spark on line 28

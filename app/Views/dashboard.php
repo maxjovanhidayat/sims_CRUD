@@ -67,9 +67,12 @@
                 <tr>
                     <td><?= ++$counter ?></td>
                     <td class="text-center">
-                        <img class="img-thumbnail" src="<?= base_url($product['product_image']) ?>"
-                            alt="<?= esc($product['product_name']) ?>" width="100">
-                    </td>
+    <img class="img-thumbnail" 
+         src="<?= base_url($product['product_image'] ?: 'https://via.placeholder.com/100x100.png?text=No+Image') ?>" 
+         alt="<?= esc($product['product_name']) ?>" 
+         width="100">
+</td>
+
                     <td><?= esc($product['product_name']) ?></td>
                     <td>Alat <?= esc($product['nama_kategori']) ?></td>
                     <td><?= esc(number_format($product['harga_beli'], 0, ',', ',')) ?></td>

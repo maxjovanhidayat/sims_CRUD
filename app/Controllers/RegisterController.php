@@ -74,7 +74,7 @@ class RegisterController extends Controller
         if ($this->request->getFile('image_profile')->isValid()) {
             $image = $this->request->getFile('image_profile');
             $newName = $image->getRandomName();
-            $image->move(ROOTPATH . 'public/uploads/profile_images', $newName);
+            $image->move(FCPATH . 'uploads/profile_images', $newName);
 
             return 'uploads/profile_images/' . $newName;
         }

@@ -39,12 +39,12 @@
             <div class="row mb-3">
                 <div class="col-4">
                     <label for="harga_beli" class="mb-1">Harga Beli</label>
-                    <input type="number" name="harga_beli" value="<?= isset($product) ? $product['harga_beli'] : old('harga_beli') ?>" class="form-control" required>
+                    <input type="number" name="harga_beli" id="harga_beli" value="<?= isset($product) ? $product['harga_beli'] : old('harga_beli') ?>" class="form-control" oninput="updateHargaBeli()" required >
                 </div>
 
                 <div class="col-4">
                     <label for="harga_jual" class="mb-1">Harga Jual</label>
-                    <input type="number" name="harga_jual" value="<?= isset($product) ? $product['harga_jual'] : old('harga_jual') ?>" class="form-control" required>
+                    <input type="number" name="harga_jual" id="harga_jual" value="<?= isset($product) ? $product['harga_jual'] : old('harga_jual') ?>" class="form-control" readonly>
                 </div>
 
                 <div class="col-4">
@@ -75,5 +75,26 @@
     </form>
 
 </div>
+<script>
+    function updateHargaBeli() {
+        var hargaJual = document.getElementById('harga_beli').value;
+        var hargaBeli = document.getElementById('harga_jual');
+        var hargaJualInt = parseInt(hargaJual, 10);
+        if (hargaJual && !isNaN(hargaJual)) {
+            // hargaBeli.value = (hargaJual * 0.30).toFixed(0) + hargaJualInt; 
+            var calculatedHargaBeli = (hargaJualInt * 0.30) + hargaJualInt;
+        
+        // Update the Harga Beli value with the calculated value
+        hargaBeli.value = Math.round(calculatedHargaBeli); 
+        } else {
+            hargaBeli.value = 0;
+        }
+    }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        updateHargaBeli(); 
+    });
+</script>
 <?= $this->endSection() ?>
+
+
